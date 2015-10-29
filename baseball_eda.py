@@ -7,7 +7,14 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import collections as c
 %matplotlib inline
+import itertools
+from collections import Counter
+from sklearn.cross_validation import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+logreg = LogisticRegression()
 
+cd SF_DAT_17_WORK
 # CLEANING BASEBALL DATA 
 with open('atbat_table.csv','r') as in_file, open('edited_atbat_table.csv','w') as out_file:
     seen = set()
@@ -16,7 +23,7 @@ with open('atbat_table.csv','r') as in_file, open('edited_atbat_table.csv','w') 
 
         seen.add(line)
         out_file.write(line)
-        
+
 with open('pitch_table.csv','r') as in_file, open('edited_pitch_table.csv','w') as out_file:
     seen = set()
     for line in in_file:
@@ -29,20 +36,44 @@ with open('pitch_table.csv','r') as in_file, open('edited_pitch_table.csv','w') 
     bat = pd.read_csv('edited_atbat_table.csv')
     pitch = pd.read_csv('edited_pitch_table.csv')
 
+    bat = bat[['retro_game_id','regseason_fl','game_id','home_team_id','away_team_id', 
+    'bat_home_id','pit_mlbid','pit_hand_cd','bat_mlbid','bat_hand_cd', 
+    'event_outs_ct','event_tx','event_cd','battedball_cd']]
+    
+    pa = list(bat.event_tx)
+    uniq_plate_outcome = set(pa)
+
+def pa_outcomes(pa_outcomes, outcome):
+   return outcome in pa_outcomes
+
+for i in uniq_plate_outcome:
+   bat[i] = bat.event_tx.apply(lambda x: pa_outcomes(x, i))
+
+bat
 # Drop NA Rows
     # Gets rid of rows w/ null values
     pitch = pitch[pd.notnull(pitch['pitch_type'])]
     # Drops columns w/ insignificant pitch types (pitch_out, eephus, intent, etc.)
-    pp = ['AB','EP','UN','IN']
-    #pitch[pitch.pitch_type not in pp] 
-
+    pitch = pitch[pitch.pitch_type != 'AB']
+    pitch = pitch[pitch.pitch_type != 'EP']
+    pitch = pitch[pitch.pitch_type != 'UN']
+    pitch = pitch[pitch.pitch_type != 'IN']
 # Include Full Pitch Name column (naming conventions are slighlty different across stadiums)
     pitch_dict = {'FF': 'fastball', 'SL': 'slider', 'FT': 'fastball', 'CH': 'changeup', 'CB': 'curveball', 'CU': 'curveball', 'SI': 'sinker', 'FC': 'cutter', 'SF': 'split-finger', 
                   'KC': 'knuckle-curve', 'FS': 'fastball', 'IN': 'pitch_out', 'KN': 'knuckleball', 'PO': 'pitch_out', 'FO': 'pitch_out', 'EP': 'eephus', 'UN': 'unidentified', 'AB': 'unidentified'}
-                  
+
+def new_col(pitch):
+    for i in pitch.pitch_type:
+        return pitch_dict[i]
+
+pitch['pitch_name'] = pitch.apply(new_col,axis=1)
+
+
+
 # OVERVIEW OF TABLES
     bat.info()
     bat.describe()
+    bat.head()
     pitch.info()
     pitch.describe()
     bat.start_bases_cd.describe()
