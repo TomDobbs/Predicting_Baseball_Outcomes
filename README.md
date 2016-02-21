@@ -1,8 +1,6 @@
 <<<<<<< HEAD
-# SF_DAT_17_WORK
-# SF_DAT_17_WORK
-=======
-## SF_DAT_17_WORK
+# General Assembly Final Project
+## Project to attempt to predict baseball game outcomes using starting lineups and starting pitchers as inputs.
 
-OH SHIT, ITS THAT TIME AGAIN. FUCKING CODING TIME BRO.
->>>>>>> 299df0b64f204adbdbf1eb7f77e0d66eb9f0c415
+### *All Data Scraped from MLB website ranging from 2007-2015 baseball* seasons. 
+=======
