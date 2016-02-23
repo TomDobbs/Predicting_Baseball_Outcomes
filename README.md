@@ -7,5 +7,5 @@
 
 ### Final Model accurately predicted the Winning Team 56.5% of the time.
 
-###### - All data was scraped from MLB website and covered seasons from *2007-2015* 
+###### - All data was scraped from mlb.com and covered seasons from *2007-2015*
 =================
