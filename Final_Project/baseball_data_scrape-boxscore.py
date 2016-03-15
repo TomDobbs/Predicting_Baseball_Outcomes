@@ -1,3 +1,5 @@
+# Scrapes MLB.com website for game data related to individual batters, pitchers, and teams
+
 import re
 import os
 import datetime
