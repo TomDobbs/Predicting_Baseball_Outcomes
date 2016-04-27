@@ -1,4 +1,4 @@
-# General Assembly - Final Project
+# Predicint Baseball Games
 <img src="https://s3.amazonaws.com/static-assets.generalassemb.ly/logos/generalassembly-open-graph.png" width="432" height="270" />
 <img src="http://3.bp.blogspot.com/-XMsysEbA0lk/VbNVtfU5ViI/AAAAAAAAFng/ktxVtWwA_Lw/s1600/1280px-Major_League_Baseball.svg.png" width="432" height="270" />
 ### With MLB statistics I used Logistic Regression to predict game outcomes.
